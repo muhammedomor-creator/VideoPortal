@@ -15,6 +15,9 @@
     <!-- FontAwesome Premium Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- YouTube Iframe API -->
+    <script src="https://www.youtube.com/iframe_api"></script>
+
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -101,8 +104,8 @@
     <header id="mainHeader" class="sticky top-0 z-40 w-full glass shadow-md py-3 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 flex items-center justify-between gap-3">
             
-            <!-- Logo Section (Admin Trigger - Needs 5 clicks) -->
-            <div onclick="handleLogoClick()" class="flex items-center gap-3 group cursor-pointer select-none active:scale-95 transition-transform" title="এডমিন প্যানেলে প্রবেশ করতে ৫ বার চাপুন">
+            <!-- Logo Section (Admin Trigger - Needs 5 clicks without redirecting) -->
+            <div onclick="handleLogoClick()" class="flex items-center gap-3 group cursor-pointer select-none active:scale-95 transition-transform" title="১ ক্লিকে মূল ওয়েবসাইট, ৫ ক্লিকে এডমিন প্যানেল">
                 <div class="bg-brand-primary text-white p-2.5 rounded-full shadow-lg shadow-rose-500/30 group-hover:scale-105 transition-all animate-pulse-ring">
                     <i class="fa-solid fa-droplet text-lg"></i>
                 </div>
@@ -357,9 +360,9 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, collection, deleteDoc, onSnapshot, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, collection, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // ওমর, তোমার প্রোভাইড করা ফায়ারবেস কনফিগারেশন এখানে সাকসেসফুলি ইন্টিগ্রেট করা হয়েছে
+        // ফায়ারবেস কনফিগারেশন
         const firebaseConfig = {
             apiKey: "AIzaSyCTYtlZE2TU8QKnu1hirUu6Y6wiJWRt0fI",
             authDomain: "barta-23821.firebaseapp.com",
@@ -381,11 +384,9 @@
         let localVideoDatabase = [];
         let adminLoggedIn = false;
         let deleteTargetId = null;
-        
-        // Active video ID representing the currently playing iframe card
         let currentlyActivePlayingId = null;
 
-        // RULE 3 - Custom Authenticated Gate
+        // Secure Authentication
         const authenticateUser = async () => {
             try {
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
@@ -399,7 +400,6 @@
             }
         };
 
-        // Auth state tracking listener
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 userSession = user;
@@ -407,13 +407,11 @@
             }
         });
 
-        // অথেনটিকেশন ইনিশিয়ালাইজ করা
         authenticateUser();
 
-        // RULE 1 & 2 - Setup strict paths and real-time synchronization with Firestore DB
+        // Realtime sync
         function initializeRealtimeSync() {
             if (!userSession) return;
-            
             const videoCollectionRef = collection(db, 'artifacts', appId, 'public', 'data', 'videos');
             
             onSnapshot(videoCollectionRef, (snapshot) => {
@@ -422,7 +420,6 @@
                     fetchedVideos.push({ id: doc.id, ...doc.data() });
                 });
 
-                // ডাটাবেস সম্পূর্ণ নতুন বা ফাঁকা হলে অটো-সিড করা
                 if (fetchedVideos.length === 0) {
                     seedDefaultVideos();
                 } else {
@@ -437,7 +434,6 @@
             });
         }
 
-        // Seeding default database items
         async function seedDefaultVideos() {
             const defaults = [
                 {
@@ -467,9 +463,9 @@
             }
         }
 
-        // ========================================================
-        // 📺 ULTRA-LIGHT & STABLE LAZY LOAD CLICK-TO-PLAY MEKANISEM
-        // ========================================================
+        // ==========================================
+        // 📺 SMART PLAYBACK LAZY LOAD LOGIC
+        // ==========================================
         
         function getYouTubeVideoId(url) {
             if (url.includes('<iframe')) {
@@ -481,7 +477,6 @@
             return (match && match[2].length === 11) ? match[2] : null;
         }
 
-        // Render the main grid
         window.renderVideoGrid = function() {
             const grid = document.getElementById('videoGrid');
             const fallback = document.getElementById('noVideoFound');
@@ -522,10 +517,8 @@
 
                 const ytId = getYouTubeVideoId(video.embedCode);
                 
-                // Card Inner Details template with dynamic dynamic placeholder
                 card.innerHTML = `
                     <div id="media_container_${video.id}" class="relative w-full overflow-hidden bg-black aspect-video flex items-center justify-center">
-                        <!-- Placeholder rendering (Zero active iframe initially) -->
                     </div>
                     <div class="p-5 flex-grow flex flex-col justify-between space-y-4">
                         <div class="space-y-2">
@@ -553,13 +546,10 @@
                 `;
                 
                 grid.appendChild(card);
-                
-                // Render placeholder into container initially
                 renderPlaceholder(video.id, video.title, ytId);
             });
         }
 
-        // Render standard placeholder/thumbnail inside container
         function renderPlaceholder(id, title, ytId) {
             const container = document.getElementById(`media_container_${id}`);
             if (!container) return;
@@ -568,7 +558,6 @@
             let htmlContent = "";
 
             if (ytId) {
-                // Fetch dynamic high quality youtube thumbnail safely
                 thumbnailSrc = `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`;
                 htmlContent = `
                     <div class="absolute inset-0 w-full h-full bg-cover bg-center transition-all duration-500 group-hover:scale-105 cursor-pointer" style="background-image: url('${thumbnailSrc}')"></div>
@@ -579,7 +568,6 @@
                     </div>
                 `;
             } else {
-                // Premium Blood Drop Gradient background for ScreenPal/Other Video Platforms
                 htmlContent = `
                     <div class="absolute inset-0 bg-gradient-to-tr from-slate-950 to-rose-950 flex flex-col justify-between p-5 select-none">
                         <div class="flex justify-between items-center w-full">
@@ -588,11 +576,9 @@
                             </span>
                             <i class="fa-solid fa-circle-play text-slate-500 text-sm"></i>
                         </div>
-                        
                         <div class="text-center my-auto py-2">
                             <h5 class="text-white text-xs md:text-sm font-bold opacity-80 leading-snug truncate max-w-xs mx-auto">${title}</h5>
                         </div>
-                        
                         <div class="text-[9px] text-slate-500 flex justify-between items-center">
                             <span>প্লে করতে চাপুন</span>
                             <span class="text-emerald-500 font-semibold flex items-center gap-1"><i class="fa-solid fa-shield"></i> ভেরিফাইড সোর্স</span>
@@ -609,9 +595,7 @@
             container.innerHTML = htmlContent;
         }
 
-        // Play Selected Video dynamically inside specific media card
         window.playVideoDirectly = function(id) {
-            // ১. পূর্বের ভিডিও বন্ধ করা: যদি ইতিমধ্যে কোনো ভিডিও চলতে থাকে, তবে সেটির আইফ্রেম রিমুভ করে তার থাম্বনেইল ফিরিয়ে আনা হবে
             if (currentlyActivePlayingId && currentlyActivePlayingId !== id) {
                 const prevVideo = localVideoDatabase.find(v => v.id === currentlyActivePlayingId);
                 if (prevVideo) {
@@ -620,7 +604,6 @@
                 }
             }
 
-            // ২. নতুন ভিডিও একটিভ করা
             const container = document.getElementById(`media_container_${id}`);
             const videoObj = localVideoDatabase.find(v => v.id === id);
             
@@ -629,45 +612,56 @@
             let embedHtml = videoObj.embedCode;
             const ytId = getYouTubeVideoId(videoObj.embedCode);
 
-            // যদি এটি ইউটিউব ভিডিও হয়, আমরা স্বয়ংক্রিয়ভাবে অটোপ্লে প্যারামিটার যুক্ত করবো যাতে ইউজারকে ডাবল ক্লিক করতে না হয়
             if (ytId) {
-                // Ensure correct parameter structure & autoplay flag
                 embedHtml = `<iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/${ytId}?autoplay=1&enablejsapi=1&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
             } else {
-                // For non-youtube (ScreenPal) video player, adjust src structure dynamically
                 if (embedHtml.includes('<iframe')) {
-                    if (embedHtml.includes('src=')) {
-                        // Dynamically append autostart variables to non-youtube players if compatible
-                        embedHtml = embedHtml.replace('<iframe', '<iframe class="absolute top-0 left-0 w-full h-full"');
-                    }
+                    embedHtml = embedHtml.replace('<iframe', '<iframe class="absolute top-0 left-0 w-full h-full"');
                 }
             }
 
-            // আইফ্রেমটি কন্টেইনারে রাইট করা (এই পর্যায়ে ভিডিও রিড হিসেবে অ্যাক্টিভ হবে এবং সাউন্ড চলবে)
             container.innerHTML = embedHtml;
-            currentlyActivePlayingId = id; // Trackবর্তমানে কোন ভিডিও চলছে
-            
-            // ওমর, ফায়ারবেসে রিড কাউন্ট ট্র্যাক বা ইউজারের ক্লিক করার টোস্ট মেসেজ দিতে পারো
+            currentlyActivePlayingId = id; 
             showToast("ভিডিও লোডিং...", `"${videoObj.title}" ভিডিওটি প্লে হচ্ছে।`, "info");
         }
 
         // ==========================================
-        // 🔒 ADMIN AUTHENTICATION GATE & CONTROLS
+        // 🔒 SMART NON-BLOCKING ADMIN TRIGGER
         // ==========================================
         let logoClickCounter = 0;
         let clickResetTimer = null;
+        let redirectTimeout = null;
 
-        // ৫ বার ক্লিক করার স্মার্ট হ্যান্ডলার
         window.handleLogoClick = function() {
             logoClickCounter++;
-            clearTimeout(clickResetTimer);
+            
+            // ১. পূর্বে সেট করা মেইন ওয়েবসাইটের রিডাইরেক্ট টাইমআউট বাতিল করা
+            if (redirectTimeout) {
+                clearTimeout(redirectTimeout);
+                redirectTimeout = null;
+            }
 
+            // ২. ৫ বার ক্লিক সম্পূর্ণ হলে এডমিন প্যানেল ওপেন
             if (logoClickCounter === 5) {
                 logoClickCounter = 0;
+                clearTimeout(clickResetTimer);
                 openAdminModal();
-            } else {
-                clickResetTimer = setTimeout(() => { logoClickCounter = 0; }, 1500);
+                return;
             }
+
+            // ৩. ১ সেকেন্ড অলস বসে থাকলে এটি রিসেট হবে
+            clearTimeout(clickResetTimer);
+            clickResetTimer = setTimeout(() => {
+                // ১ সেকেন্ডে যদি ৫ বার ক্লিক না হয় এবং মাত্র ১টি ক্লিক হয়ে থাকে, তবে মেইন ওয়েবসাইটে যাবে
+                if (logoClickCounter === 1) {
+                    redirectTimeout = setTimeout(() => {
+                        window.open("https://emergencyroktolagbe.vercel.app", "_blank");
+                        logoClickCounter = 0;
+                    }, 100);
+                } else {
+                    logoClickCounter = 0;
+                }
+            }, 300); // ক্লিকে বিরতির সময়সীমা ৩০০ মিলি-সেকেন্ড
         }
 
         window.openAdminModal = function() {
@@ -769,7 +763,6 @@
             const ytId = getYouTubeVideoId(inputLink);
 
             if (ytId && !inputLink.includes('<iframe')) {
-                // Ensure proper syntax for rendering YouTube players cleanly without configuration rate limits
                 finalEmbedCode = `<iframe style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" src="https://www.youtube.com/embed/${ytId}?enablejsapi=1" allowfullscreen></iframe>`;
             }
 
@@ -787,7 +780,6 @@
             }
 
             try {
-                // RULE 1 - Precise nested collection write path
                 const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'videos', videoId);
                 await setDoc(docRef, newVideoObj);
                 
@@ -801,12 +793,10 @@
             }
         }
 
-        // কাস্টম লাক্সারি ডিলিট কন্ট্রোল কনফিগারেশন
         window.triggerDeleteConfirmation = function(id) {
             deleteTargetId = id;
             document.getElementById('confirmModal').classList.remove('hidden');
             
-            // বাটন ইভেন্ট সেটআপ
             const deleteBtn = document.getElementById('confirmDeleteBtn');
             deleteBtn.onclick = async function() {
                 await executeDelete(deleteTargetId);
@@ -822,7 +812,6 @@
         async function executeDelete(id) {
             if (!id) return;
             try {
-                // RULE 1 - Target strict path for delete operations
                 const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'videos', id);
                 await deleteDoc(docRef);
                 showToast("ডিলিট সফল", "ভিডিওটি ক্লাউড থেকে চিরতরে মুছে ফেলা হয়েছে।", "success");
