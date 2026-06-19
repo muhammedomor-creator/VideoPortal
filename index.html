@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="bn" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>রক্তের টান - রক্তদান মিডিয়া ও ভিডিও পোর্টাল</title>
+    
+    <!-- Google Fonts: Hind Siliguri (Bengali) & Inter (English) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Hind Siliguri', 'Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            light: '#f8fafc',
+                            dark: '#0f172a',
+                            primary: '#e11d48', // Crimson Red
+                            success: '#22c55e', // Vibrant Green
+                            accent: '#f59e0b',  // Amber/Gold
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
+        .dark .glass {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        /* কাস্টম স্ক্রলবার */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #334155;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 transition-colors duration-300 min-h-screen flex flex-col font-sans">
+
+    <!-- Sticky Navigation Header -->
+    <header id="mainHeader" class="sticky top-0 z-40 w-full glass shadow-md py-3 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 flex items-center justify-between gap-3">
+            
+            <!-- Logo Section -->
+            <a href="https://emergencyroktolagbe.vercel.app" target="_blank" class="flex items-center gap-3 group">
+                <div class="bg-brand-primary text-white p-2.5 rounded-full shadow-lg group-hover:scale-105 transition-all">
+                    <i class="fa-solid fa-droplet text-lg animate-pulse"></i>
+                </div>
+                <div>
+                    <h1 class="text-md md:text-lg font-bold text-brand-primary tracking-wide leading-tight">রক্তের টান</h1>
+                    <p class="text-[10px] text-slate-500 dark:text-slate-400">রক্তদান মিডিয়া ও লার্নিং হাব</p>
+                </div>
+            </a>
+            
+            <!-- Controls (Theme switcher and Back to Main Website link) -->
+            <div class="flex items-center gap-2">
+                <!-- Theme Switcher Button -->
+                <button onclick="toggleTheme()" class="bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 p-2.5 rounded-xl transition-all" title="থিম পরিবর্তন করুন">
+                    <i id="themeIcon" class="fa-solid fa-moon text-slate-700 dark:text-amber-400 text-sm"></i>
+                </button>
+
+                <!-- Redirect to main website CTA -->
+                <a href="https://emergencyroktolagbe.vercel.app" target="_blank" class="bg-brand-primary hover:bg-rose-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-lg hover:shadow-rose-500/20 transition-all flex items-center gap-1.5 transform hover:-translate-y-0.5">
+                    <i class="fa-solid fa-hand-holding-droplet"></i> রক্ত খুঁজুন
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow max-w-7xl mx-auto w-full px-4 py-6 md:py-10 space-y-8">
+
+        <!-- Hero Welcome Section -->
+        <section class="glass p-6 md:p-10 rounded-3xl shadow-xl border border-white/40 dark:border-slate-800 relative overflow-hidden">
+            <div class="absolute -right-24 -bottom-24 w-72 h-72 bg-rose-500/10 rounded-full blur-3xl"></div>
+            <div class="absolute -left-24 -top-24 w-72 h-72 bg-blue-500/5  rounded-full blur-3xl"></div>
+
+            <div class="max-w-3xl space-y-4 relative z-10 text-center md:text-left">
+                <span class="bg-rose-100 dark:bg-rose-950/60 text-brand-primary text-xs font-bold px-3 py-1.5 rounded-full inline-block uppercase tracking-wider">
+                    🎥 মিডিয়া গ্যালারি
+                </span>
+                <h2 class="text-2xl md:text-4xl font-extrabold text-slate-900 dark:text-white leading-tight">
+                    রক্তদান সচেতনতামূলক ভিডিওসমূহ
+                </h2>
+                <p class="text-slate-600 dark:text-slate-300 text-sm md:text-base leading-relaxed">
+                    রক্তদান সম্পর্কিত সঠিক চিকিৎসা ও বৈজ্ঞানিক তথ্য জানুন, আপনার মনের সকল সংশয় দূর করুন। ভিডিওগুলো প্লে করলেই কেবল চলবে, কোনো প্রকার অটো-প্লে হবে না।
+                </p>
+                
+                <!-- Simple Information badge -->
+                <div class="flex flex-wrap items-center justify-center md:justify-start gap-4 pt-2">
+                    <div class="bg-slate-100 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/50 px-4 py-2 rounded-2xl flex items-center gap-2">
+                        <i class="fa-solid fa-video text-rose-500 text-sm"></i>
+                        <span class="text-xs font-bold text-slate-700 dark:text-slate-300">ভিডিওর সংখ্যা: <span id="totalVideoCount" class="text-brand-primary">০</span>টি</span>
+                    </div>
+                    <div class="bg-slate-100 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/50 px-4 py-2 rounded-2xl flex items-center gap-2">
+                        <i class="fa-solid fa-circle-play text-emerald-500 text-sm"></i>
+                        <span class="text-xs font-bold text-slate-700 dark:text-slate-300">নন-অটো প্লেব্যাক সমর্থিত</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Category & Search Filters section -->
+        <section class="flex flex-col md:flex-row items-center justify-between gap-4 bg-white dark:bg-slate-900/40 p-4 rounded-2xl border border-slate-200/50 dark:border-slate-800/80">
+            <!-- Title Search bar -->
+            <div class="relative w-full md:w-80">
+                <input type="text" id="videoSearchInput" oninput="filterVideos()" placeholder="ভিডিওর শিরোনাম লিখে খুঁজুন..." class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl pl-10 pr-4 py-2.5 text-xs md:text-sm focus:ring-2 focus:ring-brand-primary focus:bg-white dark:focus:bg-slate-900 outline-none transition-all">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-slate-400 text-xs"></i>
+            </div>
+
+            <!-- Categories Selector Buttons -->
+            <div class="flex flex-wrap gap-2 w-full md:w-auto justify-start md:justify-end">
+                <button onclick="setCategoryFilter('all')" id="cat-all" class="cat-btn bg-brand-primary text-white font-semibold text-xs px-3.5 py-1.5 rounded-lg transition-all shadow-sm">
+                    সকল ভিডিও
+                </button>
+                <button onclick="setCategoryFilter('rules')" id="cat-rules" class="cat-btn bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 font-semibold text-xs px-3.5 py-1.5 rounded-lg transition-all">
+                    নিয়মাবলী ও প্রস্তুতি
+                </button>
+                <button onclick="setCategoryFilter('benefits')" id="cat-benefits" class="cat-btn bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 font-semibold text-xs px-3.5 py-1.5 rounded-lg transition-all">
+                    উপকারিতা ও থ্যাংকস
+                </button>
+            </div>
+        </section>
+
+        <!-- Interactive Grid System for Video Displays -->
+        <section id="videoGridContainer">
+            <div id="videoGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 animate-fade-in">
+                <!-- Javascript populated template output -->
+            </div>
+
+            <!-- No search matches container -->
+            <div id="noVideoFound" class="hidden text-center py-16 bg-white dark:bg-slate-900/20 border border-slate-200 dark:border-slate-800 rounded-3xl">
+                <div class="text-slate-400 dark:text-slate-600 text-5xl mb-4">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                </div>
+                <h3 class="text-base md:text-lg font-bold text-slate-800 dark:text-slate-200">কোনো ভিডিও খুঁজে পাওয়া যায়নি!</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">অনুগ্রহ করে ভিন্ন কোনো শব্দ দিয়ে পুনরায় সার্চ করুন।</p>
+                <button onclick="resetFilters()" class="mt-4 bg-brand-primary text-white font-bold text-xs px-4 py-2 rounded-xl shadow-md transition">সব দেখুন</button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Simple Dynamic Footer -->
+    <footer class="bg-slate-100 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-900 py-10 px-4 mt-16">
+        <div class="max-w-7xl mx-auto space-y-6 text-center">
+            
+            <div class="flex justify-center items-center gap-3">
+                <a href="https://emergencyroktolagbe.vercel.app" target="_blank" class="flex items-center gap-2">
+                    <div class="bg-brand-primary text-white p-1.5 rounded-full">
+                        <i class="fa-solid fa-droplet text-sm"></i>
+                    </div>
+                    <span class="font-bold text-slate-900 dark:text-white text-md">রক্তের টান</span>
+                </a>
+            </div>
+
+            <p class="text-xs text-slate-500 dark:text-slate-400 max-w-xl mx-auto leading-relaxed">
+                এটি একটি সম্পূর্ণ ব্যক্তিগত উদ্যোগে তৈরি করা স্বাধীন সচেতনতা হাব। আমরা রক্তদানের গুরুত্ব ও নিয়মাবলী সবার মাঝে ছড়িয়ে দিতে এই ভিডিওগুলো প্রদর্শন করছি।
+            </p>
+
+            <div class="flex justify-center items-center gap-4 text-slate-400 text-xs">
+                <a href="https://github.com/muhammedomor-creator/EmergencyRaktoLagbe" target="_blank" class="hover:text-slate-900 dark:hover:text-white transition"><i class="fa-brands fa-github"></i> GitHub</a>
+                <span class="text-slate-300 dark:text-slate-800">|</span>
+                <a href="https://wa.me/8801410603930" target="_blank" class="hover:text-green-500 transition"><i class="fa-brands fa-whatsapp"></i> WhatsApp Support</a>
+            </div>
+
+            <div class="border-t border-slate-200 dark:border-slate-900 pt-6 text-xs text-slate-400">
+                <p>© ২০২৬ <span class="font-bold text-brand-primary">রক্তের টান</span>। সর্বস্বত্ব সংরক্ষিত।</p>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- Video Portal Core Dynamic JavaScript Engine -->
+    <script>
+        /*
+          ========================================================================
+          💡 নতুন ভিডিও ম্যানুয়ালি যুক্ত করার নিয়ম:
+          ========================================================================
+          নিচের 'videoDatabase' অ্যারেটির ভেতরে আপনি সহজে নতুন ভিডিওর অবজেক্ট যুক্ত করতে পারবেন।
+          নিচে একটি উদাহরণ দেওয়া হলো:
+          
+          {
+              title: "আপনার ভিডিওর বাংলা টাইটেল এখানে লিখুন",
+              category: "rules", // ক্যাটাগরি হিসেবে 'rules' অথবা 'benefits' লিখুন
+              embedCode: `এখানে আপনার ইউটিউব বা অন্য যেকোনো প্লেয়ারের <iframe>...</iframe> কোডটি পেস্ট করুন`
+          },
+          
+          অ্যারের শেষের আইটেমটির পরে কমা (,) দিয়ে নতুন অবজেক্টটি যুক্ত করবেন।
+        */
+
+        const videoDatabase = [
+            {
+                title: "রক্তদানের সাধারণ নিয়ম ও প্রস্তুতি পর্ব - ০১",
+                category: "rules",
+                embedCode: `<iframe style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" scrolling="no" src="https://go.screenpal.com/player/cO1qf7numse?ff=1&ahc=1&dcc=1&tl=1&bg=transparent&share=1&download=1&embed=1&cl=1" allowfullscreen="true"></iframe>`
+            },
+            {
+                title: "রক্তদানের চমৎকার শারীরিক উপকারিতা ও প্রয়োজনীয়তা - ০২",
+                category: "benefits",
+                embedCode: `<iframe style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" scrolling="no" src="https://go.screenpal.com/player/cO1fsnumsQ?ff=1&ahc=1&dcc=1&tl=1&bg=transparent&share=1&download=1&embed=1&cl=1" allowfullscreen="true"></iframe>`
+            },
+            {
+                title: "রক্তদাতাদের প্রতি কৃতজ্ঞতা ও মানবিক সামাজিক বার্তা - ০৩",
+                category: "benefits",
+                embedCode: `<iframe style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" scrolling="no" src="https://go.screenpal.com/player/cO1qfLnums2?ff=1&ahc=1&dcc=1&tl=1&bg=transparent&share=1&download=1&embed=1&cl=1" allowfullscreen="true"></iframe>`
+            }
+            // <-- আপনি চাইলে ভবিষ্যতে এখানে ঠিক এভাবে আরও নতুন ভিডিওর ডাটা অবজেক্ট অ্যাড করতে পারবেন।
+        ];
+
+        let currentFilterCategory = "all";
+
+        // Render Cards inside UI Grid
+        function renderVideoGrid() {
+            const grid = document.getElementById('videoGrid');
+            const fallback = document.getElementById('noVideoFound');
+            const countEl = document.getElementById('totalVideoCount');
+            const searchQuery = document.getElementById('videoSearchInput').value.toLowerCase().trim();
+
+            grid.innerHTML = "";
+
+            // Filter Engine Logic
+            const filteredList = videoDatabase.filter(video => {
+                const matchesCategory = (currentFilterCategory === "all" || video.category === currentFilterCategory);
+                const matchesSearch = video.title.toLowerCase().includes(searchQuery);
+                return matchesCategory && matchesSearch;
+            });
+
+            // Update Total Count Label
+            countEl.textContent = filteredList.length.toLocaleString('bn-BD');
+
+            if (filteredList.length === 0) {
+                fallback.classList.remove('hidden');
+                grid.classList.add('hidden');
+                return;
+            }
+
+            fallback.classList.add('hidden');
+            grid.classList.remove('hidden');
+
+            // Render matching item elements
+            filteredList.forEach(video => {
+                const card = document.createElement('div');
+                card.className = "bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col";
+                
+                // Get Human Readable label badge text & theme
+                let badgeLabel = "নিয়মাবলী ও প্রস্তুতি";
+                let badgeColor = "bg-blue-500";
+                
+                if (video.category === "benefits") {
+                    badgeLabel = "উপকারিতা ও থ্যাংকস";
+                    badgeColor = "bg-emerald-500";
+                }
+
+                card.innerHTML = `
+                    <!-- Aspect locked responsive Video Box wrapper -->
+                    <div class="relative w-full overflow-hidden bg-black" style="padding-top: 56.25%;">
+                        ${video.embedCode}
+                    </div>
+
+                    <!-- Details and description contents -->
+                    <div class="p-4 flex-grow flex flex-col justify-between space-y-3.5">
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-between gap-2 flex-wrap">
+                                <span class="text-[9px] font-bold text-white px-2 py-0.5 rounded-full ${badgeColor}">
+                                    ${badgeLabel}
+                                </span>
+                                <span class="text-[10px] text-slate-400 flex items-center gap-1">
+                                    <i class="fa-solid fa-video-camera text-rose-500"></i> রক্তদান মিডিয়া
+                                </span>
+                            </div>
+                            <h4 class="font-bold text-slate-900 dark:text-white text-xs md:text-sm leading-snug">
+                                ${video.title}
+                            </h4>
+                        </div>
+
+                        <!-- Card footer info status -->
+                        <div class="flex items-center justify-between border-t border-slate-100 dark:border-slate-800/80 pt-3 text-[10px] text-slate-400">
+                            <span class="flex items-center gap-1">
+                                <i class="fa-solid fa-play text-[8px] text-emerald-500"></i> ইউজার প্লেব্যাক
+                            </span>
+                            <span class="text-[9px] text-emerald-500 bg-emerald-50 dark:bg-emerald-950/20 px-2 py-0.5 rounded font-semibold">
+                                <i class="fa-solid fa-circle-check"></i> ভেরিফাইড তথ্য
+                            </span>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Filter Category Selector Switch Engine
+        window.setCategoryFilter = function(category) {
+            currentFilterCategory = category;
+
+            // Reset CSS Class of active tab buttons
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.className = "cat-btn bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 font-semibold text-xs px-3.5 py-1.5 rounded-lg transition-all";
+            });
+
+            const activeBtn = document.getElementById(`cat-${category}`);
+            if (activeBtn) {
+                activeBtn.className = "cat-btn bg-brand-primary text-white font-semibold text-xs px-3.5 py-1.5 rounded-lg transition-all shadow-sm";
+            }
+
+            renderVideoGrid();
+        }
+
+        // Live input search event
+        window.filterVideos = function() {
+            renderVideoGrid();
+        }
+
+        // Reset search field and buttons state
+        window.resetFilters = function() {
+            document.getElementById('videoSearchInput').value = "";
+            setCategoryFilter('all');
+        }
+
+        // Light & Dark system theme switcher module
+        window.toggleTheme = function() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            const themeIcon = document.getElementById('themeIcon');
+            if (isDark) {
+                themeIcon.className = "fa-solid fa-sun text-amber-400 text-sm";
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeIcon.className = "fa-solid fa-moon text-slate-700 text-sm";
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Run saved system preference check
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(pre-preferred-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            document.getElementById('themeIcon').className = "fa-solid fa-sun text-amber-400 text-sm";
+        } else {
+            document.documentElement.classList.remove('dark');
+            document.getElementById('themeIcon').className = "fa-solid fa-moon text-slate-700 text-sm";
+        }
+
+        // Start render lifecycle on Document load
+        window.addEventListener('DOMContentLoaded', () => {
+            renderVideoGrid();
+        });
+    </script>
+</body>
+</html>
